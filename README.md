@@ -1,21 +1,18 @@
-# Quokka - Rede Social para Desenvolvedores
+# Xabiras Games Market - Uma loja virutal de jogos
 
-## Sobre o Projeto
-Quokka é uma rede social criada para desenvolvedores compartilharem seu dia-a-dia, trocarem experiências, e se divertirem com memes e conteúdo relacionado à tecnologia.
+## Detalhes sobre o Projeto
+Xabiras Games Market tem o intuito de prover suporte aos desevenvoldores de jogos para publicarem seus jogos na plataforme e os usúarios comprarem e jogarem da melhor forma possível
 
 ## Funcionalidades Principais
-- Compartilhe suas experiências como programador
-- Participe de discussões técnicas sobre tecnologia
-- Divirta-se com memes e piadas sobre programação
-- Conecte-se com outros desenvolvedores
+- Comprar os mais diversos jogos
+- Dar feedback acerca dos jogos
+- Publicar o seu próprio jogo
+- Se divertir entre amigos
 
 ## Tecnologias Utilizadas
 - Frontend: React
 - Backend: Flask
 - Banco de Dados: MongoDB
-- Hospedagem: Render
 
 ## Equipe
-O projeto foi desenvolvido por estudantes de UEPB como parte do trabalho acadêmico.
-
-**Aviso:** Este projeto foi desenvolvido para fins educacionais e não tem fins lucrativos.
+O projeto está sendo desenvolvido por estudantes da UEPB como parte do trabalho acadêmico.

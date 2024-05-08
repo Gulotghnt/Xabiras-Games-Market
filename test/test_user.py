@@ -48,6 +48,34 @@ def test_createUserWithoutEmail(mock_get_user, mock_create_user, client):
 
     assert response.status_code == 400
 
+@patch.object(User, "create_user_model")
+@patch.object(User, 'get_user_by_email_model')
+def test_create_with_registered_email(mock_get_user, mock_create_user, client):
+    mock_get_user.return_value = UserBuilder.anUser().now()
+    mock_create_user.return_value = 0
+
+    response = client.post("/api/users",
+                           json={"email": "email@email.com",
+                                 "username": "teste2",
+                                 "password": "teste123", "age": 20},
+                           headers={"content-type": "application/json"})
+
+    assert response.status_code == 400
+
+@patch.object(User, "create_user_model")
+@patch.object(User, 'get_user_by_email_model')
+def test_create_with_valid_data(mock_get_user, mock_create_user, client):
+    mock_get_user.return_value = False
+    mock_create_user.return_value = 0
+
+    response = client.post("/api/users",
+                           json={"email": "email@email.com",
+                                 "username": "teste2",
+                                 "password": "teste123", "age": 20},
+                           headers={"content-type": "application/json"})
+
+    assert response.status_code == 201
+
 @patch.object(User, 'get_user_by_email_model')
 def test_login_with_correct_credentials(mock_get_user, client):
     mock_get_user.return_value = UserBuilder.anUser().now()
@@ -59,3 +87,30 @@ def test_login_with_correct_credentials(mock_get_user, client):
 
     assert response.status_code == 200
     assert jwt.decode(response.json['access_token'], os.getenv("SECRET_KEY"), algorithms=["HS256"])['sub'] == 'email@email.com'
+
+@patch.object(User, 'get_user_by_email_model')
+def test_login_with_wrong_password(mock_get_user, client):
+    mock_get_user.return_value = UserBuilder.anUser().now()
+
+    response = client.post("/api/login",
+                           json={"email": "email@email.com",
+                                 "password": "Teste"},
+                           headers={"content-type": "application/json"})
+
+    assert response.status_code == 401
+
+@patch.object(User, 'get_user_by_email_model')
+def test_login_with_empty_credentials(mock_get_user, client):
+    mock_get_user.return_value = UserBuilder.anUser().now()
+
+    response = client.post("/api/login",
+                           json={"password": "Teste123"},
+                           headers={"content-type": "application/json"})
+
+    assert response.status_code == 400
+
+    response = client.post("/api/login",
+                           json={"email": "email@email.com"},
+                           headers={"content-type": "application/json"})
+
+    assert response.status_code == 400

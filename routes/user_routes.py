@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from controllers.user_controller import login, create_user_controller
+from controllers.user_controller import login, create_user_controller, delete_user_controller, update_user_controller
 
 users_app = Blueprint("users_app", __name__)
 
@@ -29,4 +29,21 @@ def create_user_route():
     age = data["age"]
     
     response, status_code = create_user_controller(email, username, password, age)
+    return jsonify(response), status_code
+
+
+@users_app.route("/api/usersEdit/<user_id>", methods=["PUT"])
+def update_user_route(user_id):
+    data = request.get_json()
+
+    try:
+        update_user_controller(user_id, data)
+        return jsonify({"message": "User updated"}), 200
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
+
+
+@users_app.route("/api/usersDel/<userId>", methods=["DELETE"])
+def delete_user_route(userId):
+    response, status_code = delete_user_controller(userId)
     return jsonify(response), status_code

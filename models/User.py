@@ -8,13 +8,13 @@ db = client.get_database(os.getenv("MONGODB_DBNAME"))
 class User:
 
     @staticmethod
-    def create_user_model(email,username, hashed_password_base64, age):
+    def create_user_model(email,username, hashed_password_base64, date_of_birth):
         users_collection = db.users
         new_user = {
             "username": username,
             "email": email,
             "password": hashed_password_base64,
-            "age": age 
+            "age": date_of_birth
         }
         result = users_collection.insert_one(new_user)
         return str(result.inserted_id)
@@ -42,13 +42,7 @@ class User:
         users_collection = db.users
         result = users_collection.update_many({"_id": ObjectId(user_id)}, {"$set": updated_fields})
         return result
-    
-    @staticmethod
-    def get_followers_model(user_id):
-        users_collection = db.users
-        followers = users_collection.find({"following": user_id})
-        return list(followers)
-    
+       
     @staticmethod
     def delete_account_model(user_id):
         users_collection = db.users

@@ -1,4 +1,4 @@
-flask
+flask~=3.0.2
 python-dotenv
 psycopg2-binary
 pymongo
@@ -8,4 +8,5 @@ flask_jwt_extended
 datetime
 gunicorn==20.1.0
 Flask-CORS
-
+pytest-mock
+mongomock

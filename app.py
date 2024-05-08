@@ -2,7 +2,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from routes.user_routes import users_app
 import os
-from pymongo import MongoClient
+import pymongo
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ jwt = JWTManager(app)
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-client = MongoClient(os.getenv("MONGODB_URI"))
+client = pymongo.MongoClient(os.getenv("MONGODB_URI"))
 db = client.get_database(os.getenv("MONGODB_DBNAME"))
 
 app.register_blueprint(users_app)

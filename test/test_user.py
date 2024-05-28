@@ -7,11 +7,12 @@ import mongomock
 
 from models.User import User
 from UserBuilder import UserBuilder
+from middleware import globalm
 
 from flask_jwt_extended import JWTManager
 import jwt
 
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 
 @pytest.fixture
@@ -114,3 +115,34 @@ def test_login_with_empty_credentials(mock_get_user, client):
                            headers={"content-type": "application/json"})
 
     assert response.status_code == 400
+
+@patch.object(User, 'get_user_by_id_model')
+def test_delete_user_that_doesnt_exist(mock_model, client):
+    mock_model.return_value = None
+
+    response = client.delete("/api/usersDel/66561ac2ef2a600a91dd220d",
+                           headers={"content-type": "application/json"})
+
+    assert response.status_code == 400
+
+@patch.object(User, 'get_user_by_id_model')
+@patch.object(User, 'delete_account_model')
+def test_delete_user_that_exists(mock_model, mock_account_model, client):
+    mock_model.return_value = UserBuilder.anUser().now()
+
+    response = client.delete("/api/usersDel/66561ac2ef2a600a91dd220d",
+                           headers={"content-type": "application/json"})
+
+    mock_account_model.assert_called_once()
+    assert response.status_code == 200
+
+@patch.object(User, 'get_user_by_id_model')
+@patch.object(User, 'delete_account_model')
+def test_update_user_with_unchanged_data(mock_model, mock_account_model, client):
+    mock_model.return_value = UserBuilder.anUser().now()
+
+    response = client.delete("/api/usersDel/66561ac2ef2a600a91dd220d",
+                           headers={"content-type": "application/json"})
+
+    mock_account_model.assert_called_once()
+    assert response.status_code == 200

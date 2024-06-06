@@ -29,4 +29,4 @@ def get_game_name():
     if game:
         return jsonify({"name": game.get("name", "Unknown")}), 200
     else:
-        return jsonify({"message": "User not found"}), 404
+        return jsonify({"message": "Game not found"}), 404

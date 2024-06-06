@@ -2,9 +2,9 @@ from models.Games import Game
 from middleware.globalm import (verify_game)
 
 def create_game_controller(game_name, gender, description, developer, date_of_publication, price):
-    game = Game.get_user_by_gender_model(gender)
+    game = Game.get_user_by_gender_model(description)
     if game:
-        return {"message": "User already created"}, 400
+        return {"message": "Game already published"}, 400
     game_id = Game.create_game_model(game_name, gender, description, developer, date_of_publication, price)
     return {"id": game_id, "message": f"Game {game_name} published"}, 201
 

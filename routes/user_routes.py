@@ -63,6 +63,7 @@ def get_user_name():
     user_id = data["userId"]
     user = User.get_user_by_id_model(user_id)
     if user:
-        return jsonify({"user": user.get("username", "Unknown"), "email": user.get("email", "Unknown")}), 200
+        return jsonify({"user": user.get("username", "Unknown"), "email": user.get("email", "Unknown"),
+                       "data de nascimento": user.get("date_of_birth", "Unknown")}), 200
     else:
         return jsonify({"message": "User not found"}), 404

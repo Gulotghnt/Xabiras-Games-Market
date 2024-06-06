@@ -1,5 +1,7 @@
 from flask import abort
 from models.User import User
+from models.Games import Game
+from flask import abort
 
 #CONSTANTES
 MAX_TEXT_LENGTH = 300
@@ -10,6 +12,12 @@ def verify_user(userId):
         abort(400, {"message": "User not exist"})
     return user
 
+def verify_game(gameId):
+    game = Game.get_game_by_id_model(gameId)
+    if not game:
+        abort(400, {"message": "Game not exist"})
+    return game
+
 def verify_change_in_user(user_id, field_name, new_value):
     user = verify_user(user_id)
     if field_name in user:
@@ -19,3 +27,11 @@ def verify_change_in_user(user_id, field_name, new_value):
         return current_value
     else:
         abort(400, f"User data is missing '{field_name}' field")
+
+def verify_game_in_user_wishlist(userId, gameId):
+    user = verify_user(userId)
+    wishlist = user.get("wishlist", [])
+    if wishlist:
+        return True
+    return False
+

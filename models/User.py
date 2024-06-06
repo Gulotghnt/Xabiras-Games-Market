@@ -14,7 +14,8 @@ class User:
             "username": username,
             "email": email,
             "password": hashed_password_base64,
-            "age": date_of_birth 
+            "age": date_of_birth,
+            "wishlist":[],
         }
         result = users_collection.insert_one(new_user)
         return str(result.inserted_id)
@@ -48,5 +49,15 @@ class User:
         users_collection = db.users
         result = users_collection.find_one_and_delete({"_id": ObjectId(user_id)})
         return result
+    
+    @staticmethod
+    def get_wishlist_model(user_id):
+        users_collection = db.users
+        user = users_collection.find_one({"_id": ObjectId(user_id)})
+        if user:
+            wishlist = user.get("wishlist", [])
+            return wishlist
+        else:
+            return []
 
 

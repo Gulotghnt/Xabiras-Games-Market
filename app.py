@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from routes.user_routes import users_app
+from routes.games_routes import games_app
 import os
 from pymongo import MongoClient
 from flask_cors import CORS
@@ -16,6 +17,7 @@ client = MongoClient(os.getenv("MONGODB_URI"))
 db = client.get_database(os.getenv("MONGODB_DBNAME"))
 
 app.register_blueprint(users_app)
+app.register_blueprint(games_app)
 
 if __name__ == "__main":
     app.run()

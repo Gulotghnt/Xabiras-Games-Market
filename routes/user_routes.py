@@ -42,7 +42,7 @@ def update_user_route(user_id):
         return jsonify({"message": "User updated"}), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 500
-    
+
 
 @users_app.route("/api/usersDel/<userId>", methods=["DELETE"])
 def delete_user_route(userId):
